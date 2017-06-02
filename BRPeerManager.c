@@ -998,7 +998,7 @@ static void _peerRelayedPeers(void *info, const BRPeer peers[], size_t peersCoun
     pthread_mutex_unlock(&manager->lock);
     
     // peer relaying is complete when we receive <1000
-    if (peersCount > 1 && peersCount < 1000 && manager->savePeers) manager->savePeers(manager->info, save, peersCount);
+    if (peersCount > 1 && peersCount < 2 && manager->savePeers) manager->savePeers(manager->info, save, peersCount);
 }
 
 static void _peerRelayedTx(void *info, BRTransaction *tx)
