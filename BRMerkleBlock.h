@@ -29,6 +29,16 @@
 #include <stddef.h>
 #include <inttypes.h>
 
+#define  LOG_TAG    "your-log-tag"
+
+#if defined(__ANDROID__)
+#include <android/log.h>
+#define HUGOLOG(...)  __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#else
+#include <stdio.h>
+#define HUGOLOG(...) printf(__VA_ARGS__)
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
