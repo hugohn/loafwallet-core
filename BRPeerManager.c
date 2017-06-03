@@ -54,7 +54,7 @@ static const struct { uint32_t height; const char *hash; uint32_t timestamp; uin
 };
 
 static const char *dns_seeds[] = {
-    "localhost."
+    "127.0.0.1"
 };
 
 #else // main net
