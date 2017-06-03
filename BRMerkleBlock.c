@@ -269,19 +269,19 @@ int BRMerkleBlockIsValid(const BRMerkleBlock *block, uint32_t currentTime)
     
     // check if merkle root is correct
     if (block->totalTx > 0 && ! UInt256Eq(merkleRoot, block->merkleRoot)) {
-        sprintf("invalid merkleRoot: %s - %s", u256_hex_encode(merkleRoot), u256_hex_encode(block->merkleRoot));
+        printf("invalid merkleRoot: %s - %s", u256_hex_encode(merkleRoot), u256_hex_encode(block->merkleRoot));
         r = 0;
     }
     
     // check if timestamp is too far in future
     if (block->timestamp > currentTime + BLOCK_MAX_TIME_DRIFT) {
-        sprintf("timestamp too far in future: %d - %d", block->timestamp, (currentTime + BLOCK_MAX_TIME_DRIFT));
+        printf("timestamp too far in future: %d - %d", block->timestamp, (currentTime + BLOCK_MAX_TIME_DRIFT));
         r = 0;
     }
     
     // check if proof-of-work target is out of range
     if (target == 0 || target & 0x00800000 || size > maxsize || (size == maxsize && target > maxtarget)) {
-        sprintf("target is out of range: %x - %x - %x - %x", target, maxtarget, size, maxsize);
+        printf("target is out of range: %x - %x - %x - %x", target, maxtarget, size, maxsize);
         r = 0;
     }
     
@@ -291,7 +291,7 @@ int BRMerkleBlockIsValid(const BRMerkleBlock *block, uint32_t currentTime)
     for (int i = sizeof(t) - 1; r && i >= 0; i--) { // check proof-of-work
         if (block->powHash.u8[i] < t.u8[i]) break;
         if (block->powHash.u8[i] > t.u8[i]) {
-            sprintf("invalid pow [%d]: %x - %x", i, block->powHash.u8[i], t.u8[i]);
+            printf("invalid pow [%d]: %x - %x", i, block->powHash.u8[i], t.u8[i]);
             r = 0;
         }
     }
