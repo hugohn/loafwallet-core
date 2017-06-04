@@ -54,7 +54,7 @@ static const struct { uint32_t height; const char *hash; uint32_t timestamp; uin
 };
 
 static const char *dns_seeds[] = {
-    "192.168.1.15"
+    "testnet-seed.ltc.xurious.com.", "seed-b.litecoin.loshan.co.uk.", "dnsseed-testnet.thrasher.io."
 };
 
 #else // main net
@@ -996,7 +996,7 @@ static void _peerRelayedPeers(void *info, const BRPeer peers[], size_t peersCoun
     pthread_mutex_unlock(&manager->lock);
     
     // peer relaying is complete when we receive <1000
-    if (peersCount >= 1 && peersCount < 1000 && manager->savePeers) manager->savePeers(manager->info, save, peersCount);
+    if (peersCount > 1 && peersCount < 1000 && manager->savePeers) manager->savePeers(manager->info, save, peersCount);
 }
 
 static void _peerRelayedTx(void *info, BRTransaction *tx)
