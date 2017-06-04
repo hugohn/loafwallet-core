@@ -32,7 +32,7 @@
 #include <string.h>
 #include <assert.h>
 
-#define MAX_PROOF_OF_WORK 0x1e0ffff0    // highest value for difficulty target (higher values are less difficult)
+#define MAX_PROOF_OF_WORK 0x1e0fffff    // highest value for difficulty target (higher values are less difficult)
 #define TARGET_TIMESPAN   302400        // = 3.5*24*60*60; the targeted timespan between difficulty target adjustments
 
 inline static int _ceil_log2(int x)
@@ -282,8 +282,7 @@ int BRMerkleBlockIsValid(const BRMerkleBlock *block, uint32_t currentTime)
     // check if proof-of-work target is out of range
     if (target == 0 || target & 0x00800000 || size > maxsize || (size == maxsize && target > maxtarget)) {
         HUGOLOG("target is out of range: %x - %x - %x - %x", target, maxtarget, size, maxsize);
-        r = 1;
-        // r = 0;
+        r = 0;
     }
     
     if (size > 3) UInt32SetLE(&t.u8[size - 3], target);
