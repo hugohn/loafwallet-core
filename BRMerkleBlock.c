@@ -282,7 +282,8 @@ int BRMerkleBlockIsValid(const BRMerkleBlock *block, uint32_t currentTime)
     // check if proof-of-work target is out of range
     if (target == 0 || target & 0x00800000 || size > maxsize || (size == maxsize && target > maxtarget)) {
         HUGOLOG("target is out of range: %x - %x - %x - %x", target, maxtarget, size, maxsize);
-        r = 0;
+        r = 1;
+        // r = 0;
     }
     
     if (size > 3) UInt32SetLE(&t.u8[size - 3], target);
