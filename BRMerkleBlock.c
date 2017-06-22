@@ -332,8 +332,18 @@ int BRMerkleBlockVerifyDifficulty(const BRMerkleBlock *block, const BRMerkleBloc
     assert(block != NULL);
     assert(previous != NULL);
     
-    if (! previous || !UInt256Eq(block->prevBlock, previous->blockHash) || block->height != previous->height + 1) r = 0;
-    if (r && (block->height % BLOCK_DIFFICULTY_INTERVAL) == 0 && transitionTime == 0) r = 0;
+    if (! previous || !UInt256Eq(block->prevBlock, previous->blockHash) || block->height != previous->height + 1) {
+        if (!previous) {
+            HUGOLOG("previous == NULL");
+        }
+        HUGOLOG("prevBlock = %s; previous->blockHash = %s", u256_hex_encode(block->prevBlock), u256_hex_encode(previous->blockHash));
+        HUGOLOG("block->height = %x; (previous->height + 1) = %x", block->height, (previous->height + 1));
+        r = 0;
+    }
+    if (r && (block->height % BLOCK_DIFFICULTY_INTERVAL) == 0 && transitionTime == 0) {
+        HUGOLOG("block->height mod 2016 = %x; transitionTime = %x", (block->height % BLOCK_DIFFICULTY_INTERVAL), transitionTime);
+        r = 0;
+    }
     
 #if BITCOIN_TESTNET
     // TODO: implement testnet difficulty rule check
@@ -362,9 +372,15 @@ int BRMerkleBlockVerifyDifficulty(const BRMerkleBlock *block, const BRMerkleBloc
         // limit to MAX_PROOF_OF_WORK
         if (size > maxsize || (size == maxsize && target > maxtarget)) target = maxtarget, size = maxsize;
     
-        if (block->target != ((uint32_t)target | size << 24)) r = 0;
+        if (block->target != ((uint32_t)target | size << 24)) {
+            HUGOLOG("block->target = %x; validTarget = %x; target = %x", block->target, ((uint32_t)target | size << 24), ((uint32_t)target));
+            r = 0;
+        }
     }
-    else if (r && block->target != previous->target) r = 0;
+    else if (r && block->target != previous->target) {
+        HUGOLOG("block->target = %x; previous->target = %x", block->target, previous->target);
+        r = 0;
+    }
     
     return r;
 }

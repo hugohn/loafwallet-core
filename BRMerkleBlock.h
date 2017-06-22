@@ -29,7 +29,7 @@
 #include <stddef.h>
 #include <inttypes.h>
 
-#define  LOG_TAG    "your-log-tag"
+#define  LOG_TAG    "DEBUG"
 
 #if defined(__ANDROID__)
 #include <android/log.h>
